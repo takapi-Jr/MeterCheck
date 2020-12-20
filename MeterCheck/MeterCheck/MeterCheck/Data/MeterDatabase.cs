@@ -17,19 +17,26 @@ namespace MeterCheck.Data
             _database.CreateTableAsync<Meter>().Wait();
         }
 
-        public Task<List<Meter>> GetPersonsAsync()
+        public Task<List<Meter>> GetMeterListAsync()
         {
             return _database.Table<Meter>().ToListAsync();
         }
 
-        public Task<Meter> GetPersonAsync(int meterId)
+        public Task<List<Meter>> GetMeterListAsync(int machineId)
+        {
+            return _database.Table<Meter>()
+                .Where(x => x.MachineId == machineId)
+                .ToListAsync();
+        }
+
+        public Task<Meter> GetMeterAsync(int meterId)
         {
             return _database.Table<Meter>()
                 .Where(x => x.MeterId == meterId)
                 .FirstOrDefaultAsync();
         }
 
-        public Task<int> SavePersonAsync(Meter meter)
+        public Task<int> SaveMeterAsync(Meter meter)
         {
             if (meter.MachineId != 0)
             {
@@ -41,7 +48,7 @@ namespace MeterCheck.Data
             }
         }
 
-        public Task<int> DeletePersonAsync(Meter meter)
+        public Task<int> DeleteMeterAsync(Meter meter)
         {
             return _database.DeleteAsync(meter);
         }

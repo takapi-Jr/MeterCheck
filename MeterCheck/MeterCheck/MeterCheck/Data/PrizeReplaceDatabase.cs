@@ -17,19 +17,26 @@ namespace MeterCheck.Data
             _database.CreateTableAsync<PrizeReplace>().Wait();
         }
 
-        public Task<List<PrizeReplace>> GetPersonsAsync()
+        public Task<List<PrizeReplace>> GetPrizeReplaceListAsync()
         {
             return _database.Table<PrizeReplace>().ToListAsync();
         }
 
-        public Task<PrizeReplace> GetPersonAsync(int replaceId)
+        public Task<List<PrizeReplace>> GetPrizeReplaceListAsync(int machineId)
+        {
+            return _database.Table<PrizeReplace>()
+                .Where(x => x.MachineId == machineId)
+                .ToListAsync();
+        }
+
+        public Task<PrizeReplace> GetPrizeReplaceAsync(int replaceId)
         {
             return _database.Table<PrizeReplace>()
                 .Where(x => x.ReplaceId == replaceId)
                 .FirstOrDefaultAsync();
         }
 
-        public Task<int> SavePersonAsync(PrizeReplace prizeReplace)
+        public Task<int> SavePrizeReplaceAsync(PrizeReplace prizeReplace)
         {
             if (prizeReplace.ReplaceId != 0)
             {
@@ -41,7 +48,7 @@ namespace MeterCheck.Data
             }
         }
 
-        public Task<int> DeletePersonAsync(PrizeReplace prizeReplace)
+        public Task<int> DeletePrizeReplaceAsync(PrizeReplace prizeReplace)
         {
             return _database.DeleteAsync(prizeReplace);
         }
