@@ -82,6 +82,7 @@ namespace MeterCheck
             containerRegistry.RegisterForNavigation<SettingPage, SettingPageViewModel>();
             containerRegistry.RegisterForNavigation<LicensePage, LicensePageViewModel>();
             containerRegistry.RegisterForNavigation<LicenseDetailPage, LicenseDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<AddMachinePage, AddMachinePageViewModel>();
         }
     }
 }

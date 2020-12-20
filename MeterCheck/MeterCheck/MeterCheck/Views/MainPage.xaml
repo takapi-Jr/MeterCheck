@@ -8,9 +8,37 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="Info.png" Command="{Binding SettingCommand}" />
     </ContentPage.ToolbarItems>
-    
-    <CollectionView ItemsSource="{Binding MachineList.Value}">
+
+    <Grid>
+        <CollectionView ItemsSource="{Binding MachineList.Value}">
+
+        </CollectionView>
+
+        <!-- 右下ボタン -->
+        <AbsoluteLayout>
+            <ImageButton Source="Exchange.png" Padding="5" CornerRadius="25" Command="{Binding ChangeViewCommand}" BackgroundColor="#00A5F2"
+                         AbsoluteLayout.LayoutFlags="PositionProportional" 
+                         AbsoluteLayout.LayoutBounds=".75, .95, 52, 52" />
+            <ImageButton Source="Add.png" Padding="5" CornerRadius="25" Command="{Binding AddMachineCommand}" BackgroundColor="#00A5F2"
+                         AbsoluteLayout.LayoutFlags="PositionProportional" 
+                         AbsoluteLayout.LayoutBounds=".95, .95, 52, 52" />
+        </AbsoluteLayout>
         
-    </CollectionView>
+        <!--<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0, 0, 20, 20">
+            <Frame WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#00A5F2" IsClippedToBounds="True" Padding="0" Margin="0, 0, 10, 0" VerticalOptions="Center" HorizontalOptions="Center" >
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeViewCommand}" />
+                </Frame.GestureRecognizers>
+                <Image Aspect="AspectFill" Source="Exchange.png" Margin="8" />
+            </Frame>
+            <Frame WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#00A5F2" IsClippedToBounds="True" Padding="0" VerticalOptions="Center" HorizontalOptions="Center" >
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddMachineCommand}" />
+                </Frame.GestureRecognizers>
+                <Image Aspect="AspectFill" Source="Add.png" Margin="8" />
+            </Frame>
+        </StackLayout>-->
+    </Grid>
+    
     
 </ContentPage>
