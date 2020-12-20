@@ -4,8 +4,13 @@
              x:Class="MeterCheck.Views.MainPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-    </StackLayout>
-
+    <!-- ツールバー -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="Info.png" Command="{Binding SettingCommand}" />
+    </ContentPage.ToolbarItems>
+    
+    <CollectionView ItemsSource="{Binding MachineList.Value}">
+        
+    </CollectionView>
+    
 </ContentPage>

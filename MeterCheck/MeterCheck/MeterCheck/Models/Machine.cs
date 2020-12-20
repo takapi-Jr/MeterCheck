@@ -16,5 +16,6 @@ namespace MeterCheck.Models
         public int LastTimeMeter { get; set; }              // 直近チェック時のメーター
         public string LastTimeDiff { get; set; }            // 前回チェック時から今日までの差分
         public DateTime LastTimeDate { get; set; }          // 直近のチェック日時
+        public int DisplayOrder { get; set; }               // 表示順序
     }
 }

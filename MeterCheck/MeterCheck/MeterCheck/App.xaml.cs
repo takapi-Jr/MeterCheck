@@ -1,7 +1,10 @@
+using MeterCheck.Data;
 using MeterCheck.ViewModels;
 using MeterCheck.Views;
 using Prism;
 using Prism.Ioc;
+using System;
+using System.IO;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -10,6 +13,54 @@ namespace MeterCheck
 {
     public partial class App
     {
+        #region Database
+
+        private MachineDatabase _machineDatabase;
+        public MachineDatabase MachineDatabase
+        {
+            get 
+            {
+                if (_machineDatabase == null)
+                {
+                    var dir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    _machineDatabase = new MachineDatabase(Path.Combine(dir, "Machine.db3"));
+                }
+                return _machineDatabase;
+            }
+        }
+
+        private MeterDatabase _meterDatabase;
+        public MeterDatabase MeterDatabase
+        {
+            get
+            {
+                if (_meterDatabase == null)
+                {
+                    var dir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    _meterDatabase = new MeterDatabase(Path.Combine(dir, "Meter.db3"));
+                }
+                return _meterDatabase;
+            }
+        }
+
+        private PrizeReplaceDatabase _prizeReplaceDatabase;
+        public PrizeReplaceDatabase PrizeReplaceDatabase
+        {
+            get
+            {
+                if (_prizeReplaceDatabase == null)
+                {
+                    var dir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    _prizeReplaceDatabase = new PrizeReplaceDatabase(Path.Combine(dir, "PrizeReplace.db3"));
+                }
+                return _prizeReplaceDatabase;
+            }
+        }
+
+        #endregion
+
+
+
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
@@ -28,6 +79,9 @@ namespace MeterCheck
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<SettingPage, SettingPageViewModel>();
+            containerRegistry.RegisterForNavigation<LicensePage, LicensePageViewModel>();
+            containerRegistry.RegisterForNavigation<LicenseDetailPage, LicenseDetailPageViewModel>();
         }
     }
 }
