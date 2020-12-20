@@ -15,8 +15,8 @@ namespace MeterCheck
     {
         #region Database
 
-        private MachineDatabase _machineDatabase;
-        public MachineDatabase MachineDatabase
+        private static MachineDatabase _machineDatabase;
+        public static MachineDatabase MachineDatabase
         {
             get 
             {
@@ -29,8 +29,8 @@ namespace MeterCheck
             }
         }
 
-        private MeterDatabase _meterDatabase;
-        public MeterDatabase MeterDatabase
+        private static MeterDatabase _meterDatabase;
+        public static MeterDatabase MeterDatabase
         {
             get
             {
@@ -43,8 +43,8 @@ namespace MeterCheck
             }
         }
 
-        private PrizeReplaceDatabase _prizeReplaceDatabase;
-        public PrizeReplaceDatabase PrizeReplaceDatabase
+        private static PrizeReplaceDatabase _prizeReplaceDatabase;
+        public static PrizeReplaceDatabase PrizeReplaceDatabase
         {
             get
             {
