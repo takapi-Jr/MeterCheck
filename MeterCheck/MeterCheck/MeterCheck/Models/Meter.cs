@@ -10,8 +10,8 @@ namespace MeterCheck.Models
         [PrimaryKey, AutoIncrement]
         public int MeterId { get; set; }                    // メーターID
         public int MachineId { get; set; }                  // 機種ID
-        public int MeterAll { get; set; }                   // メーター
-        public bool IsDividedBy100 { get; set; } = true;    // メーターが100で割られているフラグ(true:硬貨の数、false:総金額)
+        public int Meter100 { get; set; }                   // メーター(100円玉)
+        public int Meter500 { get; set; }                   // メーター(500円玉)
         public DateTime Date { get; set; }                  // 日付
     }
 }

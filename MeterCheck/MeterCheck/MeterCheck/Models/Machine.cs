@@ -13,9 +13,11 @@ namespace MeterCheck.Models
         public string MachineName { get; set; }             // 機種名
         public string ControlId { get; set; }               // 管理番号(各店舗で任意の番号)
         public string CurrentPrizeName { get; set; }        // 現在のプライズ名
-        public int LastTimeMeter { get; set; }              // 直近チェック時のメーター
-        public string LastTimeDiff { get; set; }            // 前回チェック時から今日までの差分
+        public int LastTimeMeter100 { get; set; }           // 直近チェック時のメーター(100円玉)
+        public int LastTimeMeter500 { get; set; }           // 直近チェック時のメーター(500円玉)
+        public string LastTimeDiff100 { get; set; }         // 前回チェック時から今日までの差分(100円玉)
+        public string LastTimeDiff500 { get; set; }         // 前回チェック時から今日までの差分(500円玉)
         public DateTime LastTimeDate { get; set; }          // 直近のチェック日時
-        public int DisplayOrder { get; set; }               // 表示順序
+        public int DisplayOrder { get; set; }               // リスト内表示順序
     }
 }
