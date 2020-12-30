@@ -7,7 +7,7 @@
         <ResourceDictionary>
             
             <!-- Application resource dictionary -->
-
+            
             <!-- Colors -->
             <Color x:Key="Divider">#BDBDBD</Color>
 

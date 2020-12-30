@@ -11,19 +11,44 @@
     </ContentPage.ToolbarItems>
     
     <Grid>
-        <!--<CarouselView IsVisible="{Binding IsVisibleCarouselView.Value}" ItemsSource="{Binding MachineList.Value}" EmptyView="No machine data1.">
-            <CarouselView.ItemTemplate>
-                <DataTemplate>
-                    
-                </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>-->
+        <!-- 初期表示 -->
+        <StackLayout IsVisible="{Binding IsVisibleCarouselView.Value}">
+            <CarouselView ItemsSource="{Binding MachineList.Value}" PeekAreaInsets="40" IndicatorView="indicatorView">
+                <CarouselView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                            <Label Text="No machine data." Style="{StaticResource DefaultEmphasisLabelStyle}"/>
+                        </StackLayout>
+                    </ContentView>
+                </CarouselView.EmptyView>
 
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <ScrollView>
+                            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="20, 20, 20, 20">
+                                <Image Source="icon.png" Aspect="AspectFit" HeightRequest="300" WidthRequest="300" />
+                                <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, *">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="機種名" HorizontalOptions="Start" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding MachineName}" HorizontalOptions="EndAndExpand" />
+                                    <Label Grid.Row="1" Grid.Column="0" Text="管理番号" HorizontalOptions="Start" />
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding ControlId}" HorizontalOptions="EndAndExpand" />
+                                    <Label Grid.Row="2" Grid.Column="0" Text="現在のプライズ名" HorizontalOptions="Start" />
+                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding CurrentPrizeName}" HorizontalOptions="EndAndExpand" />
+                                </Grid>
+                            </StackLayout>
+                        </ScrollView>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <IndicatorView x:Name="indicatorView" IndicatorColor="LightGray" SelectedIndicatorColor="DarkGray" HorizontalOptions="Center" IndicatorSize="6" HeightRequest="100" />
+        </StackLayout>
+
+        <!-- 2つ目の表示 -->
         <CollectionView IsVisible="{Binding IsVisibleCollectionView.Value}" ItemsSource="{Binding MachineList.Value}" SelectionMode="Single">
             <CollectionView.EmptyView>
                 <ContentView>
                     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                        <Label Text="No machine data2." Style="{StaticResource DefaultEmphasisLabelStyle}"/>
+                        <Label Text="No machine data." Style="{StaticResource DefaultEmphasisLabelStyle}"/>
                     </StackLayout>
                 </ContentView>
             </CollectionView.EmptyView>
