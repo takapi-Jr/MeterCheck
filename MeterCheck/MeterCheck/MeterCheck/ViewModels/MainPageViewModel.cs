@@ -18,10 +18,15 @@ namespace MeterCheck.ViewModels
         public ReactiveProperty<ObservableCollection<Machine>> MachineList { get; } = new ReactiveProperty<ObservableCollection<Machine>>();
         public ReactiveProperty<ObservableCollection<Meter>> MeterList { get; } = new ReactiveProperty<ObservableCollection<Meter>>();
         public ReactiveProperty<ObservableCollection<PrizeReplace>> PrizeReplaceList { get; } = new ReactiveProperty<ObservableCollection<PrizeReplace>>();
+        public ReactiveProperty<bool> IsVisibleCarouselView { get; } = new ReactiveProperty<bool>(true);
+        public ReactiveProperty<bool> IsVisibleCollectionView { get; } = new ReactiveProperty<bool>(false);
+        public ReactiveProperty<bool> IsRefleshing { get; } = new ReactiveProperty<bool>(false);
 
         public AsyncReactiveCommand SettingCommand { get; } = new AsyncReactiveCommand();
         public AsyncReactiveCommand AddMachineCommand { get; } = new AsyncReactiveCommand();
-        public AsyncReactiveCommand ChangeViewCommand { get; } = new AsyncReactiveCommand();
+        public ReactiveCommand ChangeViewCommand { get; } = new ReactiveCommand();
+        public AsyncReactiveCommand<Machine> DeleteMachineCommand { get; } = new AsyncReactiveCommand<Machine>();
+        public AsyncReactiveCommand RefleshCommand { get; } = new AsyncReactiveCommand();
 
         private CompositeDisposable Disposable { get; } = new CompositeDisposable();
 
@@ -37,12 +42,38 @@ namespace MeterCheck.ViewModels
 
             AddMachineCommand.Subscribe(async () =>
             {
-                await this.NavigationService.NavigateAsync("AddMachinePage");
+                //await this.NavigationService.NavigateAsync("AddMachinePage");
+
+                // テストデータ
+                var machine = new Machine()
+                {
+                    MachineName = "test",
+                    ControlId = "10",
+                    CurrentPrizeName = "ねそべり",
+                };
+                var ret = await App.MachineDatabase.SaveMachineAsync(machine);
+                Console.WriteLine($"Number of records inserted: {ret}");
+                MachineList.Value.Add(machine);
             }).AddTo(this.Disposable);
 
-            ChangeViewCommand.Subscribe(async () =>
+            ChangeViewCommand.Subscribe(() =>
             {
-                //@@@@@@@@
+                IsVisibleCarouselView.Value = !IsVisibleCarouselView.Value;
+                IsVisibleCollectionView.Value = !IsVisibleCollectionView.Value;
+            }).AddTo(this.Disposable);
+
+            DeleteMachineCommand.Subscribe(async (machine) =>
+            {
+                var ret = await App.MachineDatabase.DeleteMachineAsync(machine);
+                Console.WriteLine($"Number of records deleted: {ret}");
+            }).AddTo(this.Disposable);
+
+            RefleshCommand.Subscribe(async () =>
+            {
+                IsRefleshing.Value = true;
+                var machineList = await App.MachineDatabase.GetMachineListAsync();
+                MachineList.Value = new ObservableCollection<Machine>(machineList);
+                IsRefleshing.Value = false;
             }).AddTo(this.Disposable);
         }
 

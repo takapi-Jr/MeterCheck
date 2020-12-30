@@ -8,11 +8,69 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="Info.png" Command="{Binding SettingCommand}" />
     </ContentPage.ToolbarItems>
-
+    
     <Grid>
-        <CollectionView ItemsSource="{Binding MachineList.Value}">
+        <!--<CarouselView IsVisible="{Binding IsVisibleCarouselView.Value}" ItemsSource="{Binding MachineList.Value}" EmptyView="No machine data1.">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>-->
 
-        </CollectionView>
+        <RefreshView IsRefreshing="{Binding IsRefleshing.Value}" Command="{Binding RefleshCommand}">
+            <CollectionView IsVisible="{Binding IsVisibleCollectionView.Value}" ItemsSource="{Binding MachineList.Value}" SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="No machine data2." Style="{StaticResource DefaultEmphasisLabelStyle}"/>
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <!-- コンテキストメニュー -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem Text="Delete" IconImageSource="Delete.png" BackgroundColor="LightPink" Command="{Binding DeleteMachineCommand}" CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" Grid.RowSpan="2" Source="icon.png" Aspect="AspectFit" HeightRequest="60" WidthRequest="60" />
+                                <Grid Grid.Column="1" HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0" Text="{Binding MachineName}" />
+                                    <Label Grid.Row="1" Text="{Binding CurrentPrizeName}" LineBreakMode="WordWrap" />
+                                </Grid>
+                                <Label Grid.Column="2" Text="{Binding ControlId}" HorizontalOptions="End" />
+                            </Grid>
+
+                            <!--<StackLayout Orientation="Horizontal">
+                                <Image Source="icon.png" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Center" />
+                                <Grid RowDefinitions="Auto, Auto" HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                    <Label Text="Machine.MachineName" />
+                                    <Label Text="Machine.CurrentPrizeName" />
+                                </Grid>
+                                <Label Text="Machine.ControlId" HorizontalOptions="End" VerticalOptions="Center" />
+                            </StackLayout>-->
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
 
         <!-- 右下ボタン -->
         <AbsoluteLayout>
@@ -23,22 +81,6 @@
                          AbsoluteLayout.LayoutFlags="PositionProportional" 
                          AbsoluteLayout.LayoutBounds=".95, .95, 52, 52" />
         </AbsoluteLayout>
-        
-        <!--<StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0, 0, 20, 20">
-            <Frame WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#00A5F2" IsClippedToBounds="True" Padding="0" Margin="0, 0, 10, 0" VerticalOptions="Center" HorizontalOptions="Center" >
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ChangeViewCommand}" />
-                </Frame.GestureRecognizers>
-                <Image Aspect="AspectFill" Source="Exchange.png" Margin="8" />
-            </Frame>
-            <Frame WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#00A5F2" IsClippedToBounds="True" Padding="0" VerticalOptions="Center" HorizontalOptions="Center" >
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddMachineCommand}" />
-                </Frame.GestureRecognizers>
-                <Image Aspect="AspectFill" Source="Add.png" Margin="8" />
-            </Frame>
-        </StackLayout>-->
     </Grid>
-    
-    
+
 </ContentPage>

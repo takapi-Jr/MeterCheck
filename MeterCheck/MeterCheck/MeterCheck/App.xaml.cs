@@ -64,6 +64,7 @@ namespace MeterCheck
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
+            Device.SetFlags(new string[] { "SwipeView_Experimental" });
         }
 
         protected override async void OnInitialized()
