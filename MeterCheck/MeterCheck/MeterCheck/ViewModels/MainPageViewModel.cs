@@ -20,13 +20,11 @@ namespace MeterCheck.ViewModels
         public ReactiveProperty<ObservableCollection<PrizeReplace>> PrizeReplaceList { get; } = new ReactiveProperty<ObservableCollection<PrizeReplace>>();
         public ReactiveProperty<bool> IsVisibleCarouselView { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> IsVisibleCollectionView { get; } = new ReactiveProperty<bool>(false);
-        public ReactiveProperty<bool> IsRefleshing { get; } = new ReactiveProperty<bool>(false);
 
         public AsyncReactiveCommand SettingCommand { get; } = new AsyncReactiveCommand();
         public AsyncReactiveCommand AddMachineCommand { get; } = new AsyncReactiveCommand();
         public ReactiveCommand ChangeViewCommand { get; } = new ReactiveCommand();
         public AsyncReactiveCommand<Machine> DeleteMachineCommand { get; } = new AsyncReactiveCommand<Machine>();
-        public AsyncReactiveCommand RefleshCommand { get; } = new AsyncReactiveCommand();
 
         private CompositeDisposable Disposable { get; } = new CompositeDisposable();
 
@@ -66,14 +64,7 @@ namespace MeterCheck.ViewModels
             {
                 var ret = await App.MachineDatabase.DeleteMachineAsync(machine);
                 Console.WriteLine($"Number of records deleted: {ret}");
-            }).AddTo(this.Disposable);
-
-            RefleshCommand.Subscribe(async () =>
-            {
-                IsRefleshing.Value = true;
-                var machineList = await App.MachineDatabase.GetMachineListAsync();
-                MachineList.Value = new ObservableCollection<Machine>(machineList);
-                IsRefleshing.Value = false;
+                MachineList.Value.Remove(machine);
             }).AddTo(this.Disposable);
         }
 
