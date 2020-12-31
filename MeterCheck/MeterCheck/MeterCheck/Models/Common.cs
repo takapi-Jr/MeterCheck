@@ -12,5 +12,6 @@ namespace MeterCheck.Models
         public static readonly string SqliteNetPcl = "sqlite-net-pcl";
         public static readonly string XamarinEssentialsInterfaces = "Xamarin.Essentials.Interfaces";
         public static readonly string XamarinForms = "Xamarin.Forms";
+        public static readonly string XamarinFormsPancakeView = "Xamarin.Forms.PancakeView";
     }
 }

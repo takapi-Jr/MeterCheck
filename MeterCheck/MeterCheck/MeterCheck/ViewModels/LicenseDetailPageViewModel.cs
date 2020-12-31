@@ -60,6 +60,11 @@ namespace MeterCheck.ViewModels
                 LibCopyright.Value = this.XamarinForms_LicenseText;
                 LibLicense.Value = this.MITLicenseText;
             }
+            else if (libName.Equals(Common.XamarinFormsPancakeView))
+            {
+                LibCopyright.Value = this.XamarinFormsPancakeView_LicenseText;
+                LibLicense.Value = this.MITLicenseText;
+            }
         }
 
         /// <summary>
@@ -135,6 +140,14 @@ Copyright (c) 2018 Ryan Davis
 The MIT License (MIT)
 Copyright (c) .NET Foundation Contributors
 All rights reserved.
+
+
+--------------------------------";
+
+        public string XamarinFormsPancakeView_LicenseText { get; } = @"
+■[Xamarin.Forms.PancakeView]
+The MIT License (MIT)
+Copyright (c) 2019 Steven Thewissen
 
 
 --------------------------------";

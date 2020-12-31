@@ -31,6 +31,7 @@ namespace MeterCheck.ViewModels
                 Common.SqliteNetPcl,
                 Common.XamarinEssentialsInterfaces,
                 Common.XamarinForms,
+                Common.XamarinFormsPancakeView,
             };
 
             SelectedLibName.Subscribe(async libName =>

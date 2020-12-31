@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="MeterCheck.Views.MainPage"
              x:Name="mainPage"
              Title="{Binding Title}">
@@ -12,80 +13,89 @@
     
     <Grid>
         <!-- 初期表示 -->
-        <StackLayout IsVisible="{Binding IsVisibleCarouselView.Value}">
-            <CarouselView ItemsSource="{Binding MachineList.Value}" PeekAreaInsets="40" IndicatorView="indicatorView">
+        <Grid RowDefinitions="*, Auto, Auto" IsVisible="{Binding IsVisibleCarouselView.Value}">
+            <CarouselView ItemsSource="{Binding MachineList.Value}" IndicatorView="indicatorView">
                 <CarouselView.EmptyView>
                     <ContentView>
-                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                            <Label Text="No machine data." Style="{StaticResource DefaultEmphasisLabelStyle}"/>
-                        </StackLayout>
+                        <yummy:PancakeView BackgroundColor="White" CornerRadius="30" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="20">
+                            <yummy:PancakeView.Shadow>
+                                <yummy:DropShadow Color="LightGray" Offset="10, 10" />
+                            </yummy:PancakeView.Shadow>
+                            <Label Text="No machine data." Style="{StaticResource DefaultEmphasisLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </yummy:PancakeView>
                     </ContentView>
                 </CarouselView.EmptyView>
 
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
-                        <ScrollView>
-                            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="20, 20, 20, 20">
-                                <Image Source="icon.png" Aspect="AspectFit" HeightRequest="300" WidthRequest="300" />
-                                <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, *">
-                                    <Label Grid.Row="0" Grid.Column="0" Text="機種名" HorizontalOptions="Start" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding MachineName}" HorizontalOptions="EndAndExpand" />
-                                    <Label Grid.Row="1" Grid.Column="0" Text="管理番号" HorizontalOptions="Start" />
-                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding ControlId}" HorizontalOptions="EndAndExpand" />
-                                    <Label Grid.Row="2" Grid.Column="0" Text="現在のプライズ名" HorizontalOptions="Start" />
-                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding CurrentPrizeName}" HorizontalOptions="EndAndExpand" />
+                        <ContentView>
+                            <yummy:PancakeView BackgroundColor="White" CornerRadius="30" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="20">
+                                <yummy:PancakeView.Shadow>
+                                    <yummy:DropShadow Color="LightGray" Offset="10, 10" />
+                                </yummy:PancakeView.Shadow>
+                                <Grid>
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="20">
+                                        <Image Source="icon.png" Aspect="AspectFit" HeightRequest="250" />
+                                        <Grid RowDefinitions="30, 30, Auto" ColumnDefinitions="Auto, *">
+                                            <Label Grid.Row="0" Grid.Column="0" Text="機種名" HorizontalOptions="Start" />
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding MachineName}" HorizontalOptions="EndAndExpand" />
+                                            <Label Grid.Row="1" Grid.Column="0" Text="管理番号" HorizontalOptions="Start" />
+                                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding ControlId}" HorizontalOptions="EndAndExpand" />
+                                            <Label Grid.Row="2" Grid.Column="0" Text="現在のプライズ名" HorizontalOptions="Start" />
+                                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding CurrentPrizeName}" HorizontalOptions="EndAndExpand" />
+                                        </Grid>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Start" Margin="0, 10, 10, 0">
+                                        <ImageButton Source="Delete.png" Padding="8" CornerRadius="20" HeightRequest="40" WidthRequest="40" BackgroundColor="LightGray"
+                                                     Command="{Binding Path=BindingContext.DeleteMachineCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding .}" />
+                                    </StackLayout>
                                 </Grid>
-                            </StackLayout>
-                        </ScrollView>
+                            </yummy:PancakeView>
+                        </ContentView>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
-            <IndicatorView x:Name="indicatorView" IndicatorColor="LightGray" SelectedIndicatorColor="DarkGray" HorizontalOptions="Center" IndicatorSize="6" HeightRequest="100" />
-        </StackLayout>
+            <IndicatorView Grid.Row="1" x:Name="indicatorView" IndicatorColor="LightGray" SelectedIndicatorColor="DarkGray" HorizontalOptions="Center" VerticalOptions="Start" HideSingle="False" IndicatorSize="5" />
+
+            <!-- 下部の空白 -->
+            <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="End" Margin="20, 0, 0, 20">
+                <Label HeightRequest="50" WidthRequest="50" />
+            </StackLayout>
+        </Grid>
 
         <!-- 2つ目の表示 -->
-        <CollectionView IsVisible="{Binding IsVisibleCollectionView.Value}" ItemsSource="{Binding MachineList.Value}" SelectionMode="Single">
-            <CollectionView.EmptyView>
-                <ContentView>
-                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                        <Label Text="No machine data." Style="{StaticResource DefaultEmphasisLabelStyle}"/>
-                    </StackLayout>
-                </ContentView>
-            </CollectionView.EmptyView>
+        <Grid IsVisible="{Binding IsVisibleCollectionView.Value}">
+            <CollectionView ItemsSource="{Binding MachineList.Value}" SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <Label Text="No machine data." Style="{StaticResource DefaultEmphasisLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </ContentView>
+                </CollectionView.EmptyView>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems Mode="Reveal">
-                                <SwipeItem Text="Delete" IconImageSource="Delete.png" BackgroundColor="LightPink" Command="{Binding Path=BindingContext.DeleteMachineCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding .}" IsDestructive="True" />
-                            </SwipeItems>
-                        </SwipeView.RightItems>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem Text="Delete" IconImageSource="Delete.png" IsDestructive="True" BackgroundColor="LightPink"
+                                           Command="{Binding Path=BindingContext.DeleteMachineCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Image Grid.Column="0" Source="icon.png" Aspect="AspectFit" HeightRequest="60" WidthRequest="60" />
-                            <Grid Grid.Column="1" HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <Label Grid.Row="0" Text="{Binding MachineName}" />
-                                <Label Grid.Row="1" Text="{Binding CurrentPrizeName}" LineBreakMode="WordWrap" />
+                            <Grid ColumnDefinitions="1*, 3*, 1*">
+                                <Image Grid.Column="0" Source="icon.png" Aspect="AspectFit" HeightRequest="60" WidthRequest="60" />
+                                <Grid Grid.Column="1" RowDefinitions="Auto, Auto" HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                    <Label Grid.Row="0" Text="{Binding MachineName}" />
+                                    <Label Grid.Row="1" Text="{Binding CurrentPrizeName}" LineBreakMode="WordWrap" />
+                                </Grid>
+                                <Label Grid.Column="2" Text="{Binding ControlId}" HorizontalOptions="End" VerticalOptions="Center" Margin="0, 0, 20, 0" />
                             </Grid>
-                            <Label Grid.Column="2" Text="{Binding ControlId}" HorizontalOptions="End" VerticalOptions="Center" Margin="0, 0, 20, 0" />
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        
         <!-- 右下ボタン -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="End" Margin="0, 0, 20, 20">
             <ImageButton Source="Exchange.png" Padding="8" CornerRadius="25" HeightRequest="50" WidthRequest="50" Command="{Binding ChangeViewCommand}" BackgroundColor="#00A5F2" Margin="0, 0, 10, 0" />
