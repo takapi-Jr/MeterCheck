@@ -30,7 +30,12 @@ namespace MeterCheck.ViewModels
             LibCopyright.Value = string.Empty;
             LibLicense.Value = string.Empty;
 
-            if (libName.Equals(Common.NETStandardLibrary))
+            if (libName.Equals(Common.AcrUserDialogs))
+            {
+                LibCopyright.Value = this.AcrUserDialogs_LicenseText;
+                LibLicense.Value = this.MITLicenseText;
+            }
+            else if (libName.Equals(Common.NETStandardLibrary))
             {
                 LibCopyright.Value = this.NETStandardLibrary_LicenseText;
                 LibLicense.Value = this.MITLicenseText;
@@ -90,6 +95,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+--------------------------------";
+
+        public string AcrUserDialogs_LicenseText { get; } = @"
+■[Acr.UserDialogs]
+The MIT License (MIT)
+Copyright (c) 2016 Allan Ritchie
 
 
 --------------------------------";

@@ -1,4 +1,5 @@
-﻿using MeterCheck.Models;
+﻿using Acr.UserDialogs;
+using MeterCheck.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -10,6 +11,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace MeterCheck.ViewModels
 {
@@ -20,6 +23,7 @@ namespace MeterCheck.ViewModels
         public ReactiveProperty<ObservableCollection<PrizeReplace>> PrizeReplaceList { get; } = new ReactiveProperty<ObservableCollection<PrizeReplace>>();
         public ReactiveProperty<bool> IsVisibleCarouselView { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> IsVisibleCollectionView { get; } = new ReactiveProperty<bool>(false);
+        public ReactiveProperty<bool> ShowConfirmDialog { get; } = new ReactiveProperty<bool>(true);
 
         public AsyncReactiveCommand SettingCommand { get; } = new AsyncReactiveCommand();
         public AsyncReactiveCommand AddMachineCommand { get; } = new AsyncReactiveCommand();
@@ -62,9 +66,23 @@ namespace MeterCheck.ViewModels
 
             DeleteMachineCommand.Subscribe(async (machine) =>
             {
-                var ret = await App.MachineDatabase.DeleteMachineAsync(machine);
-                Console.WriteLine($"Number of records deleted: {ret}");
-                MachineList.Value.Remove(machine);
+                var ret = true;
+                if (ShowConfirmDialog.Value)
+                {
+                    var confirmConfig = new ConfirmConfig()
+                    {
+                        OkText = "Delete",
+                        CancelText = "Cancel",
+                        Title = $"{AppInfo.Name}",
+                        Message = "Do you want to delete this data?",
+                    };
+                    ret = await UserDialogs.Instance.ConfirmAsync(confirmConfig);
+                }
+
+                if (ret)
+                {
+                    await DeleteMachine(machine);
+                }
             }).AddTo(this.Disposable);
         }
 
@@ -74,6 +92,15 @@ namespace MeterCheck.ViewModels
 
             var machineList = await App.MachineDatabase.GetMachineListAsync();
             MachineList.Value = new ObservableCollection<Machine>(machineList);
+
+            ShowConfirmDialog.Value = Preferences.Get("ShowConfirmDialog", true);
+        }
+
+        private async Task DeleteMachine(Machine machine)
+        {
+            var ret = await App.MachineDatabase.DeleteMachineAsync(machine);
+            Console.WriteLine($"Number of records deleted: {ret}");
+            MachineList.Value.Remove(machine);
         }
 
         public void Dispose()

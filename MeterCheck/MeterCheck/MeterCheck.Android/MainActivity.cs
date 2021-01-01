@@ -17,6 +17,7 @@ namespace MeterCheck.Droid
 
             base.OnCreate(savedInstanceState);
 
+            Acr.UserDialogs.UserDialogs.Init(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
         }

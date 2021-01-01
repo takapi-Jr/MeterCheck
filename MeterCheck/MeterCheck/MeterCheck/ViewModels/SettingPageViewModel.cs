@@ -15,6 +15,7 @@ namespace MeterCheck.ViewModels
     {
         public ReactiveProperty<string> AppName { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<bool> ShowConfirmDialog { get; } = new ReactiveProperty<bool>(Preferences.Get("ShowConfirmDialog", true));
 
         public AsyncReactiveCommand LicenseCommand { get; } = new AsyncReactiveCommand();
 
@@ -28,6 +29,11 @@ namespace MeterCheck.ViewModels
             // バージョン情報設定
             AppName.Value = AppInfo.Name;
             Version.Value = AppInfo.VersionString;
+
+            ShowConfirmDialog.Subscribe((flag) =>
+            {
+                Preferences.Set("ShowConfirmDialog", flag);
+            });
 
             LicenseCommand.Subscribe(async () =>
             {

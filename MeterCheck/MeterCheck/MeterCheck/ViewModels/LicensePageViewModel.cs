@@ -25,6 +25,7 @@ namespace MeterCheck.ViewModels
 
             LibNameList.Value = new List<string>
             {
+                Common.AcrUserDialogs,
                 Common.NETStandardLibrary,
                 Common.PrismUnityForms,
                 Common.ReactiveProperty,

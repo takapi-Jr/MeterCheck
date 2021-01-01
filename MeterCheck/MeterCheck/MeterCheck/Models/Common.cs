@@ -6,6 +6,7 @@ namespace MeterCheck.Models
 {
     public class Common
     {
+        public static readonly string AcrUserDialogs = "Acr.UserDialogs";
         public static readonly string NETStandardLibrary = "NETStandard.Library";
         public static readonly string PrismUnityForms = "Prism.Unity.Forms";
         public static readonly string ReactiveProperty = "ReactiveProperty";

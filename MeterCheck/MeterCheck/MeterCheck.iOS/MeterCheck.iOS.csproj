@@ -198,6 +198,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.470</Version>
+    </PackageReference>
     <PackageReference Include="ReactiveProperty">
       <Version>7.5.1</Version>
     </PackageReference>
