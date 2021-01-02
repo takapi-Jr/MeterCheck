@@ -32,8 +32,8 @@
             <BoxView Style="{StaticResource DefaultLineStyle}" />
             <Frame Padding="15" HasShadow="False">
                 <Grid ColumnDefinitions="*, *" HorizontalOptions="FillAndExpand" RowSpacing="10">
-                    <Label Grid.Column="0" Text="確認ダイアログ表示" HorizontalOptions="Start" VerticalTextAlignment="Center" />
-                    <Switch Grid.Column="1" IsToggled="{Binding ShowConfirmDialog.Value}" HorizontalOptions="End" />
+                    <Label Grid.Column="0" Text="削除確認ダイアログ表示" HorizontalOptions="Start" VerticalTextAlignment="Center" />
+                    <Switch Grid.Column="1" IsToggled="{Binding ShowDeleteConfirmDialog.Value}" HorizontalOptions="End" />
                 </Grid>
             </Frame>
             <BoxView Style="{StaticResource DefaultLineStyle}" />
