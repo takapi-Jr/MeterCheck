@@ -45,8 +45,9 @@ namespace MeterCheck.ViewModels
 
             AddMachineCommand.Subscribe(async () =>
             {
-                //await this.NavigationService.NavigateAsync("AddMachinePage");
+                await this.NavigationService.NavigateAsync("AddMachinePage");
 
+#if false
                 // テストデータ
                 var machine = new Machine()
                 {
@@ -54,9 +55,8 @@ namespace MeterCheck.ViewModels
                     ControlId = "10",
                     CurrentPrizeName = "ねそべり",
                 };
-                var ret = await App.MachineDatabase.SaveMachineAsync(machine);
-                Console.WriteLine($"Number of records inserted: {ret}");
-                MachineList.Value.Add(machine);
+                await AddMachineAsync(machine);
+#endif
             }).AddTo(this.Disposable);
 
             ChangeViewCommand.Subscribe(() =>
@@ -72,7 +72,7 @@ namespace MeterCheck.ViewModels
                 {
                     var confirmConfig = new ConfirmConfig()
                     {
-                        OkText = "Delete",
+                        OkText = "Ok",
                         CancelText = "Cancel",
                         Title = $"{AppInfo.Name}",
                         Message = "Do you want to delete this data?",
@@ -92,14 +92,31 @@ namespace MeterCheck.ViewModels
             }).AddTo(this.Disposable);
         }
 
+        public override async void Initialize(INavigationParameters parameters)
+        {
+            base.Initialize(parameters);
+
+            var machineList = await App.MachineDatabase.GetMachineListAsync();
+            MachineList.Value = new ObservableCollection<Machine>(machineList);
+        }
+
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            var machineList = await App.MachineDatabase.GetMachineListAsync();
-            MachineList.Value = new ObservableCollection<Machine>(machineList);
-
             ShowDeleteConfirmDialog.Value = Preferences.Get("ShowDeleteConfirmDialog", true);
+
+            if (parameters.ContainsKey("AddMachine"))
+            {
+                await AddMachineAsync(parameters.GetValue<Machine>("AddMachine"));
+            }
+        }
+
+        private async Task AddMachineAsync(Machine machine)
+        {
+            var ret = await App.MachineDatabase.SaveMachineAsync(machine);
+            Console.WriteLine($"Number of records inserted: {ret}");
+            MachineList.Value.Add(machine);
         }
 
         private async Task DeleteMachineAsync(Machine machine)

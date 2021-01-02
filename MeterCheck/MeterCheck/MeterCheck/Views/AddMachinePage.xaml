@@ -5,7 +5,9 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MeterCheck.Views.AddMachinePage"
              Title="{Binding Title}">
-    
-    
-    
+
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Button Text="Add test data." Command="{Binding AddMachineCommand}" />
+    </StackLayout>
+
 </ContentPage>
